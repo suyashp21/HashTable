@@ -2,6 +2,7 @@
 #include <cstring>
 #include <cctype>
 #include <iomanip>
+#include <fstream>
 
 using namespace std;
 
@@ -23,10 +24,13 @@ void printstudent(Student* s);
 void print(Node* hashtable[], int size);
 bool check(Node* hashtable[], int size);
 Node* remove(Node* hashtable[], int size, int id, bool needconfirm);
-Node** rehash(Node* hashtable[], int size);
+// Node** rehash(Node* hashtable[], int size);
 
 int main() {
+  srand (time(NULL));
   int size = 100;
+  int randomid = 1;
+  char line[100];
   char action[20];
   int deleteid;
   Node* hashtable [1600];
@@ -51,6 +55,37 @@ int main() {
       cout << "GPA: "; cin >> s->gpa;
       cout << "\n";
       addstudent(hashtable, size, s);
+    }
+    else if (strcmp(action, "RANDOM") == 0 || strcmp(action, "random") == 0) {
+      ifstream myfile ("firstname.txt");
+      ifstream myfile2 ("lastname.txt");
+      int x = rand() % 25;
+      int y = rand() % 25;
+      Student* s = new Student();
+
+      
+      for (int i=0; i<=x; i++) {
+	char temp[20];
+	myfile >> temp;
+	strcpy(s->first, temp);
+      }
+
+      for (int j=0; j<=y; j++) {
+	char temp[20];
+	myfile2 >> temp;
+	strcpy(s->last, temp);
+      }
+
+      myfile.close();
+      myfile2.close();
+
+
+      s->id = randomid;
+      s->gpa = (rand() % 400)*0.01;
+      cout << "\n";
+      printstudent(s);
+      addstudent(hashtable, size, s);
+      randomid++;
     }
     else if (strcmp(action, "PRINT") == 0 || strcmp(action, "print") == 0) {
       print(hashtable, size);
@@ -191,7 +226,7 @@ Node* remove(Node* hashtable[], int size, int id, bool needconfirm) {
   return NULL;
 }
 
-Node** rehash(Node* hashtable[], int size) {
+/* Node** rehash(Node* hashtable[], int size) {
   // rehash the table!!!
   int newsize = 2*size;
   Node* newtable [newsize];
@@ -204,4 +239,4 @@ Node** rehash(Node* hashtable[], int size) {
   }
   Node** returntable = newtable;
   return returntable;
-}
+  } */
