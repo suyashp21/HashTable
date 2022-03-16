@@ -57,8 +57,10 @@ int main() {
       addstudent(hashtable, size, s);
     }
     else if (strcmp(action, "RANDOM") == 0 || strcmp(action, "random") == 0) {
+      // random student generator
       ifstream myfile ("firstname.txt");
       ifstream myfile2 ("lastname.txt");
+      // pick random first name and last name
       int x = rand() % 25;
       int y = rand() % 25;
       Student* s = new Student();
@@ -79,13 +81,14 @@ int main() {
       myfile.close();
       myfile2.close();
 
+      // add the random student
 
       s->id = randomid;
       s->gpa = (rand() % 400)*0.01;
       cout << "\n";
       printstudent(s);
       addstudent(hashtable, size, s);
-      randomid++;
+      randomid++; // increment the id
     }
     else if (strcmp(action, "PRINT") == 0 || strcmp(action, "print") == 0) {
       print(hashtable, size);
@@ -93,7 +96,7 @@ int main() {
     else if (strcmp(action, "DELETE") == 0 || strcmp(action, "delete") == 0) {
       cout << "\nEnter the ID number of the student you are deleting: ";
       cin >> deleteid;
-      remove(hashtable, size, deleteid, true);
+      remove(hashtable, size, deleteid, true); // remove the student in question
     }
     else if (strcmp(action, "QUIT") == 0 || strcmp(action, "quit") == 0) {
       break;
@@ -102,6 +105,7 @@ int main() {
       cout << "I don't recognize that input.\n" << endl;
     }
     while (check(hashtable, size) == true) {
+      // REHASH THE TABLE
       for (int i=0; i<size; i++) {
 	Node* current = hashtable[i]->next;
 	while (current != NULL) {
@@ -146,6 +150,7 @@ void addstudent(Node* hashtable[], int size, Student* s) {
 }
 
 void printstudent(Student* s) {
+  // print a student name, id, gpa
   cout << s->first << " " << s->last << endl;
   cout << s->id << endl;
   cout << "GPA: " << fixed << setprecision(2) << s->gpa << endl;
@@ -153,6 +158,7 @@ void printstudent(Student* s) {
 }
 
 void print(Node* hashtable[], int size) {
+  // print all students using printstudent function
   cout << "\n";
   Node* n = new Node();
   for (int i=0; i<size; i++) {
@@ -226,17 +232,3 @@ Node* remove(Node* hashtable[], int size, int id, bool needconfirm) {
   return NULL;
 }
 
-/* Node** rehash(Node* hashtable[], int size) {
-  // rehash the table!!!
-  int newsize = 2*size;
-  Node* newtable [newsize];
-  for (int i=0; i<size; i++) {
-    Node* current = hashtable[i]->next;
-    while (current != NULL) {
-      addstudent(newtable, newsize, hashtable[i]->student);
-      current = current->next;
-    }
-  }
-  Node** returntable = newtable;
-  return returntable;
-  } */
