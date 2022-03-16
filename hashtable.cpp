@@ -1,3 +1,8 @@
+/* Author: Suyash Pandit
+Date: March 16, 2021
+This is yet another version of the Student List project,
+this time using the Hash Table structure for storage */
+
 #include <iostream>
 #include <cstring>
 #include <cctype>
